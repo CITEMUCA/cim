@@ -10,8 +10,8 @@ const SITE_CONFIG = {
   subtitle: "Université Cadi Ayyad — Marrakech",
   
   // Logos
-  logoPath: "assets/logo-clean.png",
-  logoFallback: "assets/logo.png",
+  logoPath: "assets/logo_cim-removebg-preview-1.png",
+  logoFallback: "assets/logo-clean.png",
   logoAlt: "Cité de l'Innovation Marrakech Logo",
 
   // Email & Contact
