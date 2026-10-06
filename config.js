@@ -68,12 +68,20 @@ const SITE_CONFIG = {
       color: "#0f766e"
     },
     {
-      id: "instagram",
-      title: "Instagram",
-      subtitle: "Suivez-nous sur Instagram (@uca.innov)",
-      url: "https://www.instagram.com/uca.innov/",
+      id: "instagram-cim",
+      title: "Instagram — CIM Marrakech",
+      subtitle: "Compte officiel Cité de l'Innovation (@cim_marrakech)",
+      url: "https://www.instagram.com/cim_marrakech?igsh=YzlsNW1vOXk1NGF1&utm_source=qr",
       icon: "fa-brands fa-instagram",
       color: "#e1306c"
+    },
+    {
+      id: "instagram-uca-innov",
+      title: "Instagram — Club UCA INNOV",
+      subtitle: "Compte officiel du Club (@uca.innov)",
+      url: "https://www.instagram.com/uca.innov/",
+      icon: "fa-brands fa-instagram",
+      color: "#c13584"
     },
     {
       id: "facebook",
