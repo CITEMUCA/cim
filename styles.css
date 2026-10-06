@@ -1,0 +1,336 @@
+/* =================================================================
+   CITÉ DE L'INNOVATION MARRAKECH — TAPLINK / LINKTREE LANDING PAGE
+   ================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  color: #1e293b;
+  background: #080d1a;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* =================================================================
+   1. AUTOMATIC BACKGROUND SLIDESHOW SYSTEM
+   ================================================================= */
+
+.bg-slideshow-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  overflow: hidden;
+  background-color: #030712;
+}
+
+.bg-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1.4s ease-in-out, transform 6s ease-out;
+  transform: scale(1.05);
+}
+
+.bg-slide.active {
+  opacity: 1;
+  transform: scale(1.0);
+}
+
+/* Dark overlay for rich contrast */
+.bg-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(8, 13, 26, 0.45) 0%, rgba(8, 13, 26, 0.75) 100%);
+  pointer-events: none;
+}
+
+/* =================================================================
+   2. MAIN CONTAINER (LINKTREE CENTERED COLUMN)
+   ================================================================= */
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 4rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* =================================================================
+   3. HEADER & EXTRA LARGE LOGO BANNER
+   ================================================================= */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2.25rem;
+  width: 100%;
+}
+
+.logo-card {
+  background: rgba(255, 255, 255, 0.96);
+  padding: 1.5rem 2.5rem;
+  border-radius: 28px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45),
+              0 0 0 1px rgba(255, 255, 255, 0.6);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(16px);
+  max-width: 520px;
+  width: 100%;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 1.25rem;
+}
+
+.logo-card:hover {
+  transform: scale(1.02);
+}
+
+.site-logo {
+  max-width: 440px;
+  max-height: 160px;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.title-box {
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.site-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.25rem;
+}
+
+.site-subtitle {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* =================================================================
+   4. LINKTREE PILL BUTTONS LIST
+   ================================================================= */
+
+.links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  width: 100%;
+  margin-bottom: 2.5rem;
+}
+
+.link-pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.9rem 1.35rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50px;
+  text-decoration: none;
+  color: #1e293b;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.link-pill:hover {
+  transform: translateY(-3px) scale(1.015);
+  background: #ffffff;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* Featured / Highlighted Button (ex: MSIC 2026) */
+.link-pill.featured {
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+  border: 2px solid #e11d48;
+  box-shadow: 0 10px 30px rgba(225, 29, 72, 0.35);
+  animation: pulseGlow 3s infinite alternate ease-in-out;
+}
+
+.link-pill.featured:hover {
+  background: #ffffff;
+  box-shadow: 0 16px 36px rgba(225, 29, 72, 0.5);
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 10px 25px rgba(225, 29, 72, 0.3);
+  }
+  100% {
+    box-shadow: 0 12px 35px rgba(225, 29, 72, 0.55);
+  }
+}
+
+.pill-icon {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  border-radius: 50%;
+  border: 2px solid #0f766e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #0f766e;
+  background: #f8fafc;
+  transition: all 0.3s ease;
+}
+
+.link-pill:hover .pill-icon {
+  background: #0f766e;
+  color: #ffffff;
+  transform: rotate(-5deg) scale(1.06);
+}
+
+.link-pill.featured .pill-icon {
+  border-color: #e11d48;
+  color: #e11d48;
+}
+
+.link-pill.featured:hover .pill-icon {
+  background: #e11d48;
+  color: #ffffff;
+}
+
+.pill-content {
+  flex: 1;
+  text-align: center;
+  padding: 0 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pill-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #0f172a;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.link-pill.featured .pill-title {
+  color: #be123c;
+}
+
+.pill-subtitle {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #64748b;
+  margin-top: 0.2rem;
+}
+
+/* Badge highlight tag on featured button */
+.featured-badge {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  background: #e11d48;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(225, 29, 72, 0.4);
+}
+
+/* =================================================================
+   5. FOOTER & CREDITS
+   ================================================================= */
+
+.footer {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.85rem;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+  .shell {
+    padding: 2rem 1rem 3rem;
+  }
+  .logo-card {
+    padding: 1.15rem 1.5rem;
+    max-width: 360px;
+    border-radius: 20px;
+  }
+  .site-logo {
+    max-width: 320px;
+    max-height: 120px;
+  }
+  .site-title {
+    font-size: 1.35rem;
+  }
+  .site-subtitle {
+    font-size: 0.85rem;
+  }
+  .link-pill {
+    padding: 0.75rem 1rem;
+  }
+  .pill-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 1.1rem;
+  }
+  .pill-title {
+    font-size: 0.84rem;
+  }
+  .pill-subtitle {
+    font-size: 0.72rem;
+  }
+}

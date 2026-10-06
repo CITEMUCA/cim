@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Cité de l'Innovation Marrakech - Université Cadi Ayyad. Portail officiel des liens, événements et réseaux sociaux." />
+  <title>Cité de l'Innovation Marrakech — Liens Officiels</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo-clean.png" />
+  <link rel="apple-touch-icon" href="assets/logo-clean.png" />
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Automatic Background Slideshow Engine -->
+  <div class="bg-slideshow-container" id="bgSlideshowContainer" aria-hidden="true"></div>
+  <div class="bg-overlay" aria-hidden="true"></div>
+
+  <!-- Main Shell Container (Linktree Centered Column) -->
+  <main class="shell">
+    
+    <!-- Header with Enlarged Logo Card & Title -->
+    <header class="header">
+      <div class="logo-card">
+        <img class="site-logo" id="siteLogo" src="assets/logo-clean.png" alt="Logo Cité de l'Innovation Marrakech" />
+      </div>
+      <div class="title-box">
+        <h1 class="site-title" id="siteTitle">Cité de l’Innovation Marrakech</h1>
+        <p class="site-subtitle" id="siteSubtitle">Université Cadi Ayyad — Marrakech</p>
+      </div>
+    </header>
+
+    <!-- Linktree Pill Buttons List -->
+    <nav class="links-list" id="linkList" aria-label="Liens officiels Cité de l'Innovation Marrakech et réseaux sociaux"></nav>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; <span id="year">2026</span> Cité de l'Innovation Marrakech — Université Cadi Ayyad. Tous droits réservés.</p>
+    </footer>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
