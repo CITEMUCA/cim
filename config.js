@@ -42,71 +42,82 @@ const SITE_CONFIG = {
     {
       id: "msic-2026",
       title: "Moroccan Sahara Innovation Challenge 2026",
-      subtitle: "Lien d’inscription officiel",
+      subtitle: "Lien d’inscription officiel au Hackathon",
       url: "https://msic.uca.ma",
       icon: "fa-solid fa-trophy",
       color: "#e11d48",
-      featured: true
+      featured: true,
+      badge: "Hackathon 2026"
+    },
+    {
+      id: "msic-coachs",
+      title: "Inscription des Coachs & Mentors",
+      subtitle: "Moroccan Sahara Innovation Challenge 2026",
+      url: "https://www.uca.ma/forms/moroccan-sahara-innovation-challenge-2026/coachs",
+      icon: "fa-solid fa-chalkboard-user",
+      color: "#0284c7",
+      featured: true,
+      badge: "Coachs & Mentors"
     },
     {
       id: "site-officiel",
-      title: "Cité de l’Innovation - Marrakech",
-      subtitle: "Site web officiel (cim.uca.ma)",
+      title: "Site Web Officiel",
+      subtitle: "cim.uca.ma",
       url: "https://cim.uca.ma/",
       icon: "fa-solid fa-globe",
       color: "#0f766e"
     },
     {
       id: "instagram",
-      title: "Cité de l’Innovation - Marrakech",
-      subtitle: "Follow us sur Instagram (@cim_marrakech)",
-      url: "https://www.instagram.com/cim_marrakech?igsh=YzlsNW1vOXk1NGF1&utm_source=qr",
+      title: "Instagram",
+      subtitle: "Suivez-nous sur Instagram (@uca.innov)",
+      url: "https://www.instagram.com/uca.innov/",
       icon: "fa-brands fa-instagram",
       color: "#e1306c"
     },
     {
       id: "facebook",
-      title: "Cité de l’Innovation - Marrakech",
-      subtitle: "Follow us sur Facebook",
+      title: "Facebook",
+      subtitle: "Rejoignez notre page Facebook",
       url: "https://www.facebook.com/share/1EQQCPmehW/?mibextid=wwXIfr",
       icon: "fa-brands fa-facebook-f",
       color: "#1877f2"
     },
     {
       id: "linkedin",
-      title: "Cité de l’Innovation - Marrakech",
-      subtitle: "Follow us sur LinkedIn",
+      title: "LinkedIn",
+      subtitle: "Suivez notre page LinkedIn",
       url: "https://www.linkedin.com/company/88428898/admin/page-posts/published/",
       icon: "fa-brands fa-linkedin-in",
       color: "#0a66c2"
     },
     {
       id: "tiktok",
-      title: "Cité de l’Innovation Marrakech",
-      subtitle: "Follow us sur TikTok",
+      title: "TikTok",
+      subtitle: "Suivez notre compte TikTok",
       url: "https://www.tiktok.com/@commulpu4qu?_r=1&_t=ZS-92fsVcGWjDw",
       icon: "fa-brands fa-tiktok",
       color: "#000000"
     },
     {
       id: "whatsapp",
-      title: "Cité de l’Innovation Marrakech",
-      subtitle: "Rejoignez notre chaîne WhatsApp",
+      title: "Chaîne WhatsApp",
+      subtitle: "Rejoignez notre canal officiel WhatsApp",
       url: "https://whatsapp.com/channel/0029VbC7Jjj0G0XlKAilNY29",
       icon: "fa-brands fa-whatsapp",
       color: "#25d366"
     },
     {
       id: "feedback",
-      title: "Visitor Feedback Form",
-      subtitle: "Formulaire d'avis et retour d'expérience",
+      title: "Formulaire d'avis visiteurs",
+      subtitle: "Votre retour d'expérience",
       url: "https://forms.gle/Ay7J4Q2irr2HdafJ6",
       icon: "fa-solid fa-clipboard-check",
       color: "#f59e0b"
     },
     {
       id: "email",
-      title: "Contact us",
+      title: "Contactez-nous par e-mail",
       subtitle: "communication.cim@uca.ac.ma",
       url: "mailto:communication.cim@uca.ac.ma",
       icon: "fa-solid fa-envelope",

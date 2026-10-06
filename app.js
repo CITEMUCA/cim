@@ -45,7 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     linkList.innerHTML = config.links.map(link => {
       const isFeatured = link.featured ? 'featured' : '';
-      const badgeHtml = link.featured ? `<span class="featured-badge">Événement</span>` : '';
+      const badgeText = link.badge || (link.featured ? 'Événement' : '');
+      const badgeHtml = badgeText ? `<span class="featured-badge">${escapeHtml(badgeText)}</span>` : '';
       const customColor = link.color || '#0f766e';
 
       return `
