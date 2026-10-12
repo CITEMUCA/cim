@@ -459,7 +459,7 @@ async function updateSetting(key, value) {
 async function getLinks(onlyActive = false) {
   let sql = "SELECT * FROM links";
   if (onlyActive) {
-    sql += " WHERE is_active = 1 OR is_active = true";
+    sql += " WHERE is_active";
   }
   sql += " ORDER BY sort_order ASC, id ASC";
   const rows = await query(sql);
@@ -564,7 +564,7 @@ async function reorderLinks(items) {
 async function getBackgrounds(onlyActive = false) {
   let sql = "SELECT * FROM backgrounds";
   if (onlyActive) {
-    sql += " WHERE is_active = true OR is_active = 1";
+    sql += " WHERE is_active";
   }
   sql += " ORDER BY sort_order ASC, id ASC";
   const rows = await query(sql);
