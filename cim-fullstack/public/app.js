@@ -1,6 +1,8 @@
 /**
- * CITÉ DE L'INNOVATION MARRAKECH — FRONTEND DYNAMIQUE
- * Connecté à l'API Node.js / PostgreSQL
+ * =================================================================
+ * CITÉ DE L'INNOVATION MARRAKECH — DYNAMIC SLIDESHOW & LINKTREE APP
+ * Design 100% identique au site officiel, alimenté par l'API
+ * =================================================================
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,11 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const bgContainer = document.getElementById("bgSlideshowContainer");
   const bannerEl = document.getElementById("announcementBanner");
 
-  let bgSlides = [];
   let currentBgIndex = 0;
+  let bgSlides = [];
   let slideshowInterval = null;
 
-  // Load configuration from API
+  // Charge la configuration depuis l'API REST
   fetchConfig();
 
   async function fetchConfig() {
@@ -28,30 +30,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       applyConfig(result.data);
     } catch (err) {
-      console.error("Impossible de charger la configuration API :", err);
-      // Fallback display
-      if (linkList) {
-        linkList.innerHTML = `<div style="color: white; text-align: center; padding: 2rem;">Chargement des informations en cours...</div>`;
-      }
+      console.error("Erreur API :", err);
     }
   }
 
   function applyConfig(config) {
-    // 1. Titles & Metadata
+    // 1. Titres & Marque
     if (siteTitle && config.title) siteTitle.textContent = config.title;
     if (siteSubtitle && config.subtitle) siteSubtitle.textContent = config.subtitle;
-    if (pageTitle && config.title) pageTitle.textContent = `${config.title} — ${config.subtitle || 'Portail officiel'}`;
+    if (pageTitle && config.title) pageTitle.textContent = `${config.title} — ${config.subtitle || 'Université Cadi Ayyad'}`;
 
     // 2. Logo
-    if (siteLogo && config.logoPath) {
-      siteLogo.src = config.logoPath;
-      siteLogo.alt = config.logoAlt || "Logo Cité de l'Innovation";
+    if (siteLogo) {
+      siteLogo.src = config.logoPath || "assets/logo_cim-removebg-preview-1.png";
+      siteLogo.alt = config.logoAlt || "Logo Cité de l'Innovation Marrakech";
       siteLogo.onerror = () => {
         if (config.logoFallback) siteLogo.src = config.logoFallback;
       };
     }
 
-    // 3. Announcement Banner
+    // 3. Bandeau d'annonce (si activé dans l'admin)
     if (bannerEl && config.banner) {
       if (config.banner.enabled && config.banner.text) {
         bannerEl.style.display = "flex";
@@ -66,70 +64,48 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // 4. Accent color
-    if (config.accentColor) {
-      document.documentElement.style.setProperty('--primary-accent', config.accentColor);
-    }
-
-    // 5. Render Links
+    // 4. Liens pilules (Rendu 100% identique au design d'origine)
     renderLinks(config.links || []);
 
-    // 6. Init Background Slideshow
+    // 5. Diaporama d'arrière-plan
     initSlideshow(config.backgrounds || [], config.slideshowDelay || 4000);
   }
 
+  // Rendu des boutons pilules
   function renderLinks(links) {
     if (!linkList) return;
-    linkList.innerHTML = "";
 
-    if (links.length === 0) {
-      linkList.innerHTML = `<p style="color: #94a3b8; text-align: center;">Aucun lien configuré pour le moment.</p>`;
-      return;
-    }
+    linkList.innerHTML = links.map(link => {
+      const isFeatured = link.featured ? 'featured' : '';
+      const badgeText = link.badge || (link.featured ? 'Hackathon 2026' : '');
+      const badgeColor = link.badgeColor || link.color || '#e11d48';
+      const badgeHtml = badgeText ? `<span class="featured-badge" style="background-color: ${badgeColor}">${escapeHtml(badgeText)}</span>` : '';
+      const customColor = link.color || '#0f766e';
 
-    links.forEach((link, idx) => {
-      const a = document.createElement("a");
-      a.className = `link-pill ${link.featured ? "featured" : ""}`;
-      a.href = link.url;
-      a.target = link.url.startsWith("mailto:") ? "_self" : "_blank";
-      a.rel = "noopener noreferrer";
-      a.setAttribute("aria-label", `${link.title}${link.subtitle ? " - " + link.subtitle : ""}`);
-
-      // Icon display (Custom uploaded image or FontAwesome class)
-      let iconHtml = "";
-      if (link.iconType === "custom" && link.customIconUrl) {
-        iconHtml = `<img src="${escapeHtml(link.customIconUrl)}" alt="" class="link-custom-icon" />`;
+      // Icône : FontAwesome ou image personnalisée uploadée
+      let iconInner = '';
+      if (link.iconType === 'custom' && link.customIconUrl) {
+        iconInner = `<img src="/${link.customIconUrl}" alt="" style="width: 24px; height: 24px; object-fit: contain;" />`;
       } else {
-        const iconClass = link.icon || "fa-solid fa-arrow-up-right-from-square";
-        iconHtml = `<i class="${escapeHtml(iconClass)}" aria-hidden="true"></i>`;
+        iconInner = `<i class="${link.icon || 'fa-solid fa-link'}"></i>`;
       }
 
-      // Badge display
-      let badgeHtml = "";
-      if (link.badge) {
-        const badgeBg = link.badgeColor || link.color || "#e11d48";
-        badgeHtml = `<span class="link-badge" style="background-color: ${badgeBg}">${escapeHtml(link.badge)}</span>`;
-      }
-
-      const cardColor = link.color || "#0284c7";
-
-      a.innerHTML = `
-        <div class="link-icon-box" style="background-color: ${cardColor}">
-          ${iconHtml}
-        </div>
-        <div class="link-content">
-          <div class="link-title">${escapeHtml(link.title)}</div>
-          ${link.subtitle ? `<div class="link-subtitle">${escapeHtml(link.subtitle)}</div>` : ""}
-        </div>
-        ${badgeHtml}
-        <i class="fa-solid fa-chevron-right link-arrow" aria-hidden="true"></i>
+      return `
+        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="link-pill ${isFeatured}">
+          ${badgeHtml}
+          <div class="pill-icon" style="border-color: ${customColor}; color: ${customColor}; --hover-color: ${customColor};">
+            ${iconInner}
+          </div>
+          <div class="pill-content">
+            <span class="pill-title">${escapeHtml(link.title)}</span>
+            ${link.subtitle ? `<span class="pill-subtitle">${escapeHtml(link.subtitle)}</span>` : ''}
+          </div>
+        </a>
       `;
-
-      linkList.appendChild(a);
-    });
+    }).join('');
   }
 
-  // Background Slideshow Engine
+  // Moteur automatique de diaporama (Fonctionnement identique au fichier d'origine)
   function initSlideshow(backgrounds, delay) {
     if (!bgContainer || backgrounds.length === 0) return;
 
