@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     }
 
-    // 3. Bandeau d'annonce (si activé dans l'admin)
+    // 3. Bandeau d'annonce
     if (bannerEl && config.banner) {
       if (config.banner.enabled && config.banner.text) {
         bannerEl.style.display = "flex";
