@@ -20,7 +20,6 @@ const SITE_CONFIG = {
   // Diaporama automatique de fond
   slideshowDelay: 4000,
   backgrounds: [
-    "assets/backgrounds/cite-innovation.png",
     "assets/backgrounds/photo1.jpg",
     "assets/backgrounds/photo2.jpg",
     "assets/backgrounds/photo3.jpg",
@@ -32,7 +31,24 @@ const SITE_CONFIG = {
     "assets/backgrounds/photo9.jpg",
     "assets/backgrounds/photo10.jpg",
     "assets/backgrounds/photo11.jpg",
-    "assets/backgrounds/photo12.jpg"
+    "assets/backgrounds/photo12.jpg",
+    "assets/backgrounds/photo13.jpg",
+    "assets/backgrounds/photo14.jpg",
+    "assets/backgrounds/photo15.jpg",
+    "assets/backgrounds/photo16.jpg",
+    "assets/backgrounds/photo17.jpg",
+    "assets/backgrounds/photo18.jpg",
+    "assets/backgrounds/photo19.jpg",
+    "assets/backgrounds/photo20.jpg",
+    "assets/backgrounds/photo21.jpg",
+    "assets/backgrounds/photo22.jpg",
+    "assets/backgrounds/photo23.jpg",
+    "assets/backgrounds/photo24.jpg",
+    "assets/backgrounds/photo25.jpg",
+    "assets/backgrounds/photo26.jpg",
+    "assets/backgrounds/photo27.jpg",
+    "assets/backgrounds/photo28.jpg",
+    "assets/backgrounds/photo29.jpg"
   ],
 
   // =================================================================
