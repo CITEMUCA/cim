@@ -529,19 +529,61 @@ function renderBackgroundsGrid() {
         <img src="/${bg.url}" alt="Photo ${idx + 1}" loading="lazy" />
       </div>
       <div class="bg-card-footer">
-        <label class="switch" title="Activer / Désactiver du diaporama">
-          <input type="checkbox" ${bg.is_active ? 'checked' : ''} onchange="toggleBackgroundActive(${bg.id}, this.checked)" />
-          <span class="slider"></span>
-        </label>
-        <button class="btn btn-danger btn-sm" onclick="deleteBackgroundItem(${bg.id})" title="Supprimer du diaporama">
-          <i class="fa-solid fa-trash-can"></i>
-        </button>
+        <div class="bg-order-arrows">
+          <button class="btn btn-secondary btn-sm btn-arrow" onclick="moveBackground(${bg.id}, -1)" title="Déplacer vers la gauche / plus tôt" ${idx === 0 ? 'disabled' : ''}>
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="btn btn-secondary btn-sm btn-arrow" onclick="moveBackground(${bg.id}, 1)" title="Déplacer vers la droite / plus tard" ${idx === currentBackgrounds.length - 1 ? 'disabled' : ''}>
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <label class="switch" title="Activer / Désactiver du diaporama">
+            <input type="checkbox" ${bg.is_active ? 'checked' : ''} onchange="toggleBackgroundActive(${bg.id}, this.checked)" />
+            <span class="slider"></span>
+          </label>
+          <button class="btn btn-danger btn-sm" style="padding: 4px 8px;" onclick="deleteBackgroundItem(${bg.id})" title="Supprimer du diaporama">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
       </div>
     `;
 
     container.appendChild(card);
   });
 }
+
+window.moveBackground = async (id, direction) => {
+  const index = currentBackgrounds.findIndex(b => b.id === id);
+  if (index < 0) return;
+  const targetIndex = index + direction;
+  if (targetIndex < 0 || targetIndex >= currentBackgrounds.length) return;
+
+  // Swap dans le tableau local
+  const temp = currentBackgrounds[index];
+  currentBackgrounds[index] = currentBackgrounds[targetIndex];
+  currentBackgrounds[targetIndex] = temp;
+
+  renderBackgroundsGrid();
+
+  // Envoi du nouvel ordre au serveur
+  const items = currentBackgrounds.map((b, i) => ({ id: b.id, sort_order: i + 1 }));
+  try {
+    const res = await fetch('/api/admin/backgrounds/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast("Ordre du diaporama mis à jour !");
+    } else {
+      showToast(data.error || "Erreur de réorganisation", "error");
+    }
+  } catch (err) {
+    showToast("Erreur lors de la réorganisation", "error");
+  }
+};
 
 window.toggleBackgroundActive = async (id, is_active) => {
   try {
