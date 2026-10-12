@@ -1,0 +1,14 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment & local databases
+.env
+*.sqlite
+*.sqlite-journal
+
+# Uploads (optional)
+# cim-fullstack/uploads/*
+# !cim-fullstack/uploads/.gitkeep

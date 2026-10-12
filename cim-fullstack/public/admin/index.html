@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Espace d'Administration — Cité de l'Innovation Marrakech</title>
+  
+  <link rel="icon" type="image/png" href="../assets/logo_cim-removebg-preview-1.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="admin-header">
+    <div class="brand-wrapper">
+      <div class="brand-logo-card">
+        <img id="headerLogoImg" src="../assets/logo_cim-removebg-preview-1.png" alt="CIM" />
+      </div>
+      <div>
+        <div class="brand-title">Cité de l'Innovation Marrakech</div>
+        <div class="db-badge" id="dbBadge"><i class="fa-solid fa-database"></i> <span id="dbName">PostgreSQL</span></div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <a href="/" target="_blank" class="btn-header" title="Ouvrir le portail public dans un nouvel onglet">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Voir le site
+      </a>
+      <button class="btn-header btn-logout" id="logoutBtn" title="Fermer la session">
+        <i class="fa-solid fa-power-off"></i> Déconnexion
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="admin-container">
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="tab-links">
+        <i class="fa-solid fa-link"></i> Liens & Réseaux
+      </button>
+      <button class="tab-btn" data-tab="tab-backgrounds">
+        <i class="fa-solid fa-images"></i> Diaporama Photos
+      </button>
+      <button class="tab-btn" data-tab="tab-banner">
+        <i class="fa-solid fa-bullhorn"></i> Bandeau d'Annonce
+      </button>
+      <button class="tab-btn" data-tab="tab-settings">
+        <i class="fa-solid fa-sliders"></i> Identité & Apparence
+      </button>
+      <button class="tab-btn" data-tab="tab-security">
+        <i class="fa-solid fa-shield-halved"></i> Sécurité
+      </button>
+    </nav>
+
+    <!-- ============================================================== -->
+    <!-- TAB 1 : LIENS & RÉSEAUX SOCIAUX -->
+    <!-- ============================================================== -->
+    <section id="tab-links" class="tab-content active">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title"><i class="fa-solid fa-list-check" style="color: var(--primary);"></i> Liens & Boutons du Portail</h2>
+            <p class="panel-desc">Gérez l'ensemble des boutons officiels affichés sur votre page d'accueil (ajoutez, modifiez les couleurs, réorganisez, masquez ou supprimez).</p>
+          </div>
+          <button class="btn btn-primary" id="openAddLinkModalBtn">
+            <i class="fa-solid fa-plus"></i> Ajouter un nouveau lien
+          </button>
+        </div>
+
+        <div id="linksListContainer" class="links-grid">
+          <!-- Rendered dynamically via admin.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- TAB 2 : DIAPORAMA DE PHOTOS D'ARRIÈRE-PLAN -->
+    <!-- ============================================================== -->
+    <section id="tab-backgrounds" class="tab-content">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title"><i class="fa-solid fa-panorama" style="color: #10b981;"></i> Diaporama des Photos de Fond</h2>
+            <p class="panel-desc">Glissez vos nouvelles photos directement ci-dessous pour les ajouter au diaporama en haute résolution.</p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <label style="font-size: 0.88rem; color: var(--text-muted);">Vitesse du diaporama :</label>
+            <select id="slideshowDelaySelect" class="form-control" style="width: auto;">
+              <option value="3000">3 secondes</option>
+              <option value="4000">4 secondes (standard)</option>
+              <option value="6000">6 secondes</option>
+              <option value="8000">8 secondes</option>
+              <option value="10000">10 secondes</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Drag & Drop Upload Zone -->
+        <div class="bg-upload-dropzone" id="bgDropzone">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <h3 style="font-size: 1.1rem; margin-bottom: 0.35rem;">Cliquez ou glissez-déposez des photos ici</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Formats acceptés : JPG, PNG, WebP (redimensionnement automatique)</p>
+          <input type="file" id="bgFileInput" multiple accept="image/*" style="display: none;" />
+        </div>
+
+        <!-- Grid of Photos -->
+        <div class="panel-header" style="margin-top: 1.5rem; margin-bottom: 1rem;">
+          <h3 style="font-size: 1.05rem; font-weight: 700;">Photos actives dans le diaporama (<span id="bgCount">0</span>)</h3>
+        </div>
+        <div id="backgroundsGridContainer" class="bg-grid">
+          <!-- Rendered dynamically via admin.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- TAB 3 : BANDEAU D'ANNONCE -->
+    <!-- ============================================================== -->
+    <section id="tab-banner" class="tab-content">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title"><i class="fa-solid fa-bullhorn" style="color: #e11d48;"></i> Ruban / Bandeau d'Annonce Supérieur</h2>
+            <p class="panel-desc">Affichez un message important ou un événement urgent en tout haut de page avec un lien optionnel.</p>
+          </div>
+          <button class="btn btn-primary" id="saveBannerBtn">
+            <i class="fa-solid fa-check"></i> Enregistrer le bandeau
+          </button>
+        </div>
+
+        <form id="bannerForm">
+          <div class="form-group" style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-card-subtle); padding: 1rem 1.25rem; border-radius: 14px; border: 1px solid var(--border-color);">
+            <div>
+              <div style="font-weight: 700; font-size: 0.98rem;">Activer le bandeau d'annonce sur le site</div>
+              <div style="color: var(--text-muted); font-size: 0.82rem;">Si désactivé, le bandeau sera totalement masqué pour les visiteurs.</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="bannerEnabled" />
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="bannerText">Texte de l'annonce</label>
+            <input type="text" class="form-control" id="bannerText" placeholder="Ex: 🚀 Inscriptions ouvertes : Moroccan Sahara Innovation Challenge 2026 !" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="bannerLink">Lien cliquable (Optionnel)</label>
+            <input type="url" class="form-control" id="bannerLink" placeholder="Ex: https://msic.uca.ma" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Couleur de fond du bandeau</label>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <input type="color" id="bannerColorPicker" style="width: 48px; height: 42px; border: none; border-radius: 8px; cursor: pointer; background: transparent;" />
+              <input type="text" id="bannerColorText" class="form-control" style="max-width: 150px;" />
+            </div>
+          </div>
+
+          <!-- Live Preview Box -->
+          <div style="margin-top: 1.75rem;">
+            <label class="form-label">Aperçu en direct du bandeau :</label>
+            <div id="bannerPreview" style="padding: 0.75rem 1rem; border-radius: 10px; color: white; text-align: center; font-weight: 600; font-size: 0.92rem; background: #e11d48; margin-top: 0.5rem;">
+              Aperçu du message
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- TAB 4 : IDENTITÉ & APPARENCE DU SITE -->
+    <!-- ============================================================== -->
+    <section id="tab-settings" class="tab-content">
+      <div class="panel-card">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title"><i class="fa-solid fa-palette" style="color: #0284c7;"></i> Textes, Logo & Couleurs</h2>
+            <p class="panel-desc">Personnalisez le nom du portail, l'adresse email de contact et téléversez un nouveau logo.</p>
+          </div>
+          <button class="btn btn-primary" id="saveGeneralSettingsBtn">
+            <i class="fa-solid fa-check"></i> Enregistrer les modifications
+          </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+          <div>
+            <div class="form-group">
+              <label class="form-label" for="siteTitleInput">Titre principal du site</label>
+              <input type="text" id="siteTitleInput" class="form-control" placeholder="Cité de l’Innovation Marrakech" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="siteSubtitleInput">Sous-titre / Organisation</label>
+              <input type="text" id="siteSubtitleInput" class="form-control" placeholder="Université Cadi Ayyad — Marrakech" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="siteEmailInput">Adresse e-mail officielle de contact</label>
+              <input type="email" id="siteEmailInput" class="form-control" placeholder="communication.cim@uca.ac.ma" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Couleur d'accentuation générale</label>
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <input type="color" id="accentColorPicker" style="width: 48px; height: 42px; border: none; border-radius: 8px; cursor: pointer; background: transparent;" />
+                <input type="text" id="accentColorText" class="form-control" style="max-width: 150px;" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Logo Uploader Box -->
+          <div style="background: var(--bg-card-subtle); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--border-color); text-align: center;">
+            <label class="form-label" style="margin-bottom: 1rem;">Logo officiel affiché en haut</label>
+            <div style="background: #ffffff; padding: 1rem; border-radius: 14px; max-width: 260px; margin: 0 auto 1.25rem;">
+              <img id="logoPreviewImg" src="../assets/logo_cim-removebg-preview-1.png" style="max-height: 70px; width: auto; max-width: 100%; display: block; margin: 0 auto;" alt="Logo" />
+            </div>
+            <button class="btn btn-secondary btn-sm" id="triggerLogoUploadBtn">
+              <i class="fa-solid fa-upload"></i> Remplacer le logo (PNG / JPG)
+            </button>
+            <input type="file" id="logoFileInput" accept="image/*" style="display: none;" />
+            <p style="color: var(--text-muted); font-size: 0.78rem; margin-top: 0.75rem;">Recommandé : Logo PNG avec fond transparent</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- TAB 5 : SÉCURITÉ -->
+    <!-- ============================================================== -->
+    <section id="tab-security" class="tab-content">
+      <div class="panel-card" style="max-width: 580px;">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title"><i class="fa-solid fa-lock" style="color: #f59e0b;"></i> Modifier le Mot de Passe Administrateur</h2>
+            <p class="panel-desc">Changez les identifiants d'accès sécurisés à cet espace d'administration.</p>
+          </div>
+        </div>
+
+        <form id="changePasswordForm">
+          <div class="form-group">
+            <label class="form-label" for="currentPassword">Mot de passe actuel</label>
+            <input type="password" id="currentPassword" class="form-control" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="newPassword">Nouveau mot de passe</label>
+            <input type="password" id="newPassword" class="form-control" minlength="6" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="confirmPassword">Confirmer le nouveau mot de passe</label>
+            <input type="password" id="confirmPassword" class="form-control" minlength="6" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">
+            <i class="fa-solid fa-key"></i> Enregistrer le nouveau mot de passe
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================== -->
+  <!-- MODAL : AJOUTER OU MODIFIER UN LIEN -->
+  <!-- ============================================================== -->
+  <div class="modal-backdrop" id="linkModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modalTitle" style="font-family: 'Outfit', sans-serif; font-size: 1.25rem;">Ajouter un nouveau lien</h3>
+        <button class="btn btn-secondary btn-sm" id="closeModalBtn" style="padding: 0.35rem 0.65rem;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form id="linkForm">
+          <input type="hidden" id="editLinkId" value="" />
+
+          <div class="form-group">
+            <label class="form-label" for="modalLinkTitle">Titre du bouton *</label>
+            <input type="text" id="modalLinkTitle" class="form-control" placeholder="Ex: Inscription au Hackathon 2026" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalLinkSubtitle">Sous-titre explicatif (optionnel)</label>
+            <input type="text" id="modalLinkSubtitle" class="form-control" placeholder="Ex: Formulaire officiel d'inscription" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="modalLinkUrl">Adresse web (URL) *</label>
+            <input type="text" id="modalLinkUrl" class="form-control" placeholder="https://..." required />
+          </div>
+
+          <!-- Color Chooser with Presets -->
+          <div class="form-group">
+            <label class="form-label">Couleur de l'icône / Bouton</label>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <input type="color" id="modalLinkColorPicker" style="width: 44px; height: 38px; border: none; border-radius: 8px; cursor: pointer; background: transparent;" value="#0284c7" />
+              <input type="text" id="modalLinkColorText" class="form-control" value="#0284c7" style="max-width: 130px;" />
+            </div>
+            <!-- Preset brand swatches -->
+            <div class="color-swatches" id="colorSwatchesContainer">
+              <button type="button" class="color-swatch-btn" data-color="#e11d48" style="background: #e11d48;" title="Rouge CIM Hackathon"></button>
+              <button type="button" class="color-swatch-btn" data-color="#0284c7" style="background: #0284c7;" title="Bleu Azur"></button>
+              <button type="button" class="color-swatch-btn" data-color="#0f766e" style="background: #0f766e;" title="Vert Émeraude"></button>
+              <button type="button" class="color-swatch-btn" data-color="#e1306c" style="background: #e1306c;" title="Instagram"></button>
+              <button type="button" class="color-swatch-btn" data-color="#1877f2" style="background: #1877f2;" title="Facebook"></button>
+              <button type="button" class="color-swatch-btn" data-color="#0a66c2" style="background: #0a66c2;" title="LinkedIn"></button>
+              <button type="button" class="color-swatch-btn" data-color="#25d366" style="background: #25d366;" title="WhatsApp"></button>
+              <button type="button" class="color-swatch-btn" data-color="#000000" style="background: #000000;" title="Noir TikTok"></button>
+              <button type="button" class="color-swatch-btn" data-color="#c13584" style="background: #c13584;" title="Rose Violet"></button>
+              <button type="button" class="color-swatch-btn" data-color="#f59e0b" style="background: #f59e0b;" title="Ambre"></button>
+              <button type="button" class="color-swatch-btn" data-color="#3b82f6" style="background: #3b82f6;" title="Bleu"></button>
+            </div>
+          </div>
+
+          <!-- Icon selection -->
+          <div class="form-group">
+            <label class="form-label">Choix de l'icône</label>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+              <button type="button" class="btn btn-sm btn-secondary active" id="btnIconFontawesome">
+                <i class="fa-solid fa-icons"></i> Icône FontAwesome
+              </button>
+              <button type="button" class="btn btn-sm btn-secondary" id="btnIconCustom">
+                <i class="fa-solid fa-upload"></i> Importer mon icône (PNG/SVG)
+              </button>
+            </div>
+
+            <!-- FontAwesome selector -->
+            <div id="faSelectorSection">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <div id="faPreviewBox" style="width: 40px; height: 40px; border-radius: 10px; background: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: white;">
+                  <i class="fa-solid fa-trophy" id="faPreviewIcon"></i>
+                </div>
+                <input type="text" id="modalLinkFaClass" class="form-control" value="fa-solid fa-trophy" placeholder="Classe FontAwesome" />
+              </div>
+              <!-- Quick picker badges -->
+              <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                <button type="button" class="btn btn-sm btn-secondary fa-quick-btn" data-icon="fa-solid fa-trophy"><i class="fa-solid fa-trophy"></i> Trophée</button>
+                <button type="button" class="btn btn-sm btn-secondary fa-quick-btn" data-icon="fa-solid fa-chalkboard-user"><i class="fa-solid fa-chalkboard-user"></i> Coach</button>
+                <button type="button" class="btn btn-sm btn-secondary fa-quick-btn" data-icon="fa-solid fa-globe"><i class="fa-solid fa-globe"></i> Site web</button>
+                <button type="button" class="btn btn-sm btn-secondary fa-quick-btn" data-icon="fa-brands fa-instagram"><i class="fa-brands fa-instagram"></i> Instagram</button>
+                <button type="button" class="btn btn-sm btn-secondary fa-quick-btn" data-icon="fa-brands fa-linkedin-in"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</button>
+                <button type="button" class="btn btn-sm btn-secondary fa-quick-btn" data-icon="fa-brands fa-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+                <button type="button" class="btn btn-sm btn-secondary fa-quick-btn" data-icon="fa-solid fa-envelope"><i class="fa-solid fa-envelope"></i> Email</button>
+                <button type="button" class="btn btn-sm btn-secondary fa-quick-btn" data-icon="fa-solid fa-rocket"><i class="fa-solid fa-rocket"></i> Fusée</button>
+              </div>
+            </div>
+
+            <!-- Custom icon upload section -->
+            <div id="customIconSection" style="display: none; background: rgba(15, 23, 42, 0.4); padding: 1rem; border-radius: 12px; border: 1px dashed var(--border-color); text-align: center;">
+              <input type="file" id="customIconFileInput" accept="image/*" style="display: none;" />
+              <input type="hidden" id="customIconUrlValue" value="" />
+              <div id="customIconPreviewArea" style="margin-bottom: 0.5rem; display: none;">
+                <img id="customIconPreviewImg" src="" style="height: 36px; object-fit: contain;" />
+              </div>
+              <button type="button" class="btn btn-sm btn-secondary" id="triggerCustomIconUpload">
+                <i class="fa-solid fa-file-arrow-up"></i> Choisir une image d'icône
+              </button>
+            </div>
+          </div>
+
+          <!-- Optional Badge -->
+          <div class="form-group" style="background: var(--bg-card-subtle); padding: 1rem; border-radius: 12px; border: 1px solid var(--border-color);">
+            <div style="font-weight: 700; font-size: 0.9rem; margin-bottom: 0.5rem;">Badge indicateur (Optionnel)</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+              <div>
+                <label class="form-label" for="modalBadgeText" style="font-size: 0.78rem;">Texte du badge</label>
+                <input type="text" id="modalBadgeText" class="form-control" placeholder="Ex: Hackathon 2026, Nouveau, Urgent" />
+              </div>
+              <div>
+                <label class="form-label" for="modalBadgeColor" style="font-size: 0.78rem;">Couleur du badge</label>
+                <input type="color" id="modalBadgeColor" style="width: 100%; height: 38px; border: none; border-radius: 8px; cursor: pointer; background: transparent;" value="#e11d48" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Featured toggle -->
+          <div class="form-group" style="display: flex; align-items: center; justify-content: space-between; margin-top: 1rem;">
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">Mettre en avant (Bordure lumineuse)</div>
+              <div style="color: var(--text-muted); font-size: 0.78rem;">Donne un style plus visible à ce lien.</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="modalFeaturedCheck" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cancelModalBtn">Annuler</button>
+        <button type="button" class="btn btn-primary" id="saveLinkBtn">Enregistrer le lien</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="admin.js"></script>
+</body>
+</html>
