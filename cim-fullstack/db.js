@@ -406,7 +406,7 @@ async function initDb() {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
         link.link_id, link.title, link.subtitle, link.url, link.icon, link.icon_type,
-        link.color, link.featured ? 1 : 0, link.badge_text, link.badge_color, link.sort_order, link.is_active ? 1 : 0
+        link.color, Boolean(link.featured), link.badge_text, link.badge_color, link.sort_order, Boolean(link.is_active)
       ]);
     }
   }
@@ -420,8 +420,8 @@ async function initDb() {
       const url = `assets/backgrounds/photo${i}.jpg`;
       await query(`
         INSERT INTO backgrounds (url, filename, sort_order, is_active)
-        VALUES (?, ?, ?, 1)
-      `, [url, `photo${i}.jpg`, i]);
+        VALUES (?, ?, ?, ?)
+      `, [url, `photo${i}.jpg`, i, true]);
     }
   }
 
@@ -473,8 +473,8 @@ async function getLinks(onlyActive = false) {
 async function createLink(data) {
   const orderRes = await query("SELECT MAX(sort_order) as max_order FROM links");
   const nextOrder = (orderRes[0]?.max_order || 0) + 1;
-  const isFeatured = data.featured ? 1 : 0;
-  const isActive = (data.is_active !== undefined ? (data.is_active ? 1 : 0) : 1);
+  const isFeatured = Boolean(data.featured);
+  const isActive = data.is_active !== undefined ? Boolean(data.is_active) : true;
 
   if (dbType === 'postgres') {
     const res = await pgPool.query(`
@@ -522,8 +522,8 @@ async function createLink(data) {
 }
 
 async function updateLink(id, data) {
-  const isFeatured = data.featured ? 1 : 0;
-  const isActive = (data.is_active !== undefined ? (data.is_active ? 1 : 0) : 1);
+  const isFeatured = Boolean(data.featured);
+  const isActive = data.is_active !== undefined ? Boolean(data.is_active) : true;
 
   await query(`
     UPDATE links
@@ -564,7 +564,7 @@ async function reorderLinks(items) {
 async function getBackgrounds(onlyActive = false) {
   let sql = "SELECT * FROM backgrounds";
   if (onlyActive) {
-    sql += " WHERE is_active = 1 OR is_active = true";
+    sql += " WHERE is_active = true OR is_active = 1";
   }
   sql += " ORDER BY sort_order ASC, id ASC";
   const rows = await query(sql);
@@ -579,8 +579,8 @@ async function addBackground(url, filename) {
   const nextOrder = (orderRes[0]?.max_order || 0) + 1;
   await query(`
     INSERT INTO backgrounds (url, filename, sort_order, is_active)
-    VALUES (?, ?, ?, 1)
-  `, [url, filename, nextOrder]);
+    VALUES (?, ?, ?, ?)
+  `, [url, filename, nextOrder, true]);
   const rows = await query("SELECT * FROM backgrounds ORDER BY id DESC LIMIT 1");
   return rows[0];
 }
@@ -591,8 +591,7 @@ async function deleteBackground(id) {
 }
 
 async function toggleBackground(id, isActive) {
-  const val = isActive ? 1 : 0;
-  await query("UPDATE backgrounds SET is_active = ? WHERE id = ?", [val, id]);
+  await query("UPDATE backgrounds SET is_active = ? WHERE id = ?", [Boolean(isActive), id]);
   return true;
 }
 
